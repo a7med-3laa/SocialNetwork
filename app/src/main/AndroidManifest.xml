@@ -19,15 +19,13 @@
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".Activity.LoginActivity"
             android:configChanges="orientation"
 
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,8 +38,7 @@
 
             android:label="@string/title_activity_forget_password"
             android:parentActivityName=".Activity.LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sign_in.asu.socialnetwork.Activity.LoginActivity" />
@@ -52,15 +49,13 @@
 
             android:label="@string/title_activity_chat"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activity.MyProfile"
 
             android:configChanges="orientation"
             android:label="@string/title_activity_my_profile"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".SocialNetworkNotification"
