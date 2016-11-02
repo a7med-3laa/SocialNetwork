@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sign_in.asu.socialnetwork">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name=".MyApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Activity.SignUpActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysVisible" />
+        <activity
+            android:name=".Activity.LoginActivity"
+            android:configChanges="orientation"
+
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity.ForgetPassword"
+            android:configChanges="orientation"
+
+            android:label="@string/title_activity_forget_password"
+            android:parentActivityName=".Activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sign_in.asu.socialnetwork.Activity.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".Activity.ChatActivity"
+            android:configChanges="orientation"
+
+            android:label="@string/title_activity_chat"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Activity.MyProfile"
+
+            android:configChanges="orientation"
+            android:label="@string/title_activity_my_profile"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".SocialNetworkNotification"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".SettingsActivity"
+
+            android:configChanges="orientation"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".Activity.ChatActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sign_in.asu.socialnetwork.Activity.ChatActivity" />
+        </activity>
+    </application>
+
+</manifest>
