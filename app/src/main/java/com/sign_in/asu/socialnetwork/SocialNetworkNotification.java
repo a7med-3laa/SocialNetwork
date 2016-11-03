@@ -60,13 +60,12 @@ public class SocialNetworkNotification extends Service {
 
         pattern = new long[]{0, vibrateTime, 0};
         final NotificationManager m = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
-        final Boolean isEnable = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("notifications_new_message", true);
-        reference.addChildEventListener(new ChildEventListener() {
+        reference.limitToLast(1).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (!MyApp.isActivityVisible() && dataSnapshot.exists() && isEnable) {
+                if (!MyApp.isActivityVisible() && dataSnapshot.exists()) {
                     ChatMsg chatMsg = dataSnapshot.getValue(ChatMsg.class);
-                    if (!chatMsg.getSenderID().equals(me.getUid())) {
+                    if (!chatMsg.getSenderID().equals(me.getUid()) && !dataSnapshot.getKey().equals(MyApp.LastMsgKey)) {
                         Notification a = new Notification.Builder(getApplicationContext())
                                 .setContentTitle(chatMsg.getName() + ":")
                                 .setContentText(chatMsg.getMsg())
@@ -76,9 +75,8 @@ public class SocialNetworkNotification extends Service {
                                 .setVibrate(pattern)
                                 .setOnlyAlertOnce(true)
                                 .setAutoCancel(true)
-
-//                            .setLights(Integer.parseInt(color), 300, 2000)
                                 .build();
+                        MyApp.LastMsgKey = dataSnapshot.getKey();
                         m.notify(0, a);
                     }
                 }

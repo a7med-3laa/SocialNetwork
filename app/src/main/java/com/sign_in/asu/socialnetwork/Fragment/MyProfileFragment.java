@@ -84,7 +84,7 @@ public class MyProfileFragment extends Fragment {
                 if (TextUtils.isEmpty(emailStr))
                     Toast.makeText(getActivity(), "Email is empty ", Toast.LENGTH_SHORT).show();
                 else if (!MyApp.isEmailValid(emailStr))
-                    email.setError("Email is incorrect");
+                    Toast.makeText(getActivity(), "Email is incorrect ", Toast.LENGTH_SHORT).show();
 
                 else {
                     me.updateEmail(emailStr).addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {

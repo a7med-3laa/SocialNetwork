@@ -24,11 +24,5 @@
         android:dependency="notifications_new_message"
         android:key="notifications_new_message_vibrate"
         android:title="@string/pref_title_vibrate" />
-    <ListPreference
-        android:defaultValue="0x00000000"
-        android:dependency="notifications_new_message"
-        android:entries="@array/light_color"
-        android:entryValues="@array/light_color_entries"
-        android:key="notifications_new_message_light"
-        android:title="Light" />
+    ]
 </PreferenceScreen>
