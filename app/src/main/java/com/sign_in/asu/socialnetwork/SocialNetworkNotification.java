@@ -1,16 +1,12 @@
 package com.sign_in.asu.socialnetwork;
 
-import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 
@@ -21,11 +17,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.sign_in.asu.socialnetwork.Activity.ChatActivity;
 import com.sign_in.asu.socialnetwork.model.ChatMsg;
-
-import java.util.List;
 
 public class SocialNetworkNotification extends Service {
     FirebaseUser me;
@@ -66,33 +59,28 @@ public class SocialNetworkNotification extends Service {
             vibrateTime = 0;
 
         pattern = new long[]{0, vibrateTime, 0};
-
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
         final NotificationManager m = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         final Boolean isEnable = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("notifications_new_message", true);
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (!MyApp.isActivityVisible() && dataSnapshot.exists() && isEnable) {
-
-                    Notification a = new Notification.Builder(getApplicationContext())
-                            .setContentTitle("new massage")
-                            .setContentText(dataSnapshot.getValue(ChatMsg.class).getMsg())
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentIntent(pendingIntent)
-                            .setSound(Uri.parse(n))
-                            .setVibrate(pattern)
-                            .setOnlyAlertOnce(true)
-                            .setAutoCancel(true)
+                    ChatMsg chatMsg = dataSnapshot.getValue(ChatMsg.class);
+                    if (!chatMsg.getSenderID().equals(me.getUid())) {
+                        Notification a = new Notification.Builder(getApplicationContext())
+                                .setContentTitle(chatMsg.getName() + ":")
+                                .setContentText(chatMsg.getMsg())
+                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setContentIntent(pendingIntent)
+                                .setSound(Uri.parse(n))
+                                .setVibrate(pattern)
+                                .setOnlyAlertOnce(true)
+                                .setAutoCancel(true)
 
 //                            .setLights(Integer.parseInt(color), 300, 2000)
-                            .build();
-
-                    m.notify(0, a);
-
+                                .build();
+                        m.notify(0, a);
+                    }
                 }
             }
 
@@ -116,6 +104,12 @@ public class SocialNetworkNotification extends Service {
 
             }
         });
+
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
         return START_STICKY;
 
     }

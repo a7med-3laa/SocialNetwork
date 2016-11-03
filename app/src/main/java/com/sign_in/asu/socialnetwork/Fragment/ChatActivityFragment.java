@@ -52,7 +52,7 @@ public class ChatActivityFragment extends Fragment {
 
     @OnClick(R.id.btn_send)
     public void sendMsg() {
-        final String msg = text.getText().toString();
+        final String msg = text.getText().toString().trim();
         if (!TextUtils.isEmpty(msg)) {
 
             text.setText("");

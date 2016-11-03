@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,7 +76,7 @@ public class MyProfileFragment extends Fragment {
         a.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String emailStr = email.getText().toString();
+                String emailStr = email.getText().toString().trim();
                 if (TextUtils.isEmpty(emailStr))
                     Toast.makeText(getActivity(), "Email is empty ", Toast.LENGTH_SHORT).show();
                 else {
@@ -147,13 +146,14 @@ public class MyProfileFragment extends Fragment {
     // open GALLERY TO get Image
     @OnClick(R.id.uploadImage)
     public void uploadImage() {
-        Intent i = new Intent(Intent.ACTION_PICK);
+        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
         i.setType("image/*");
         p = new ProgressDialog(getActivity());
         p.setMessage("Uploading...");
 
         startActivityForResult(i, 0);
         p.show();
+        p.setCancelable(false);
     }
 
     // SignOut from FireBase
@@ -209,9 +209,13 @@ public class MyProfileFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0 && resultCode == getActivity().RESULT_OK) {
+        if (resultCode == getActivity().RESULT_CANCELED)
+            p.dismiss();
+
+        if (requestCode == 0 && resultCode == getActivity().RESULT_OK && data != null) {
             //get Image Uri
-            final Uri uri = data.getData();
+            Uri uri = data.getData();
+
             // send Image to FireBase Storage
             files.putFile(uri).addOnCompleteListener(getActivity(), new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -241,8 +245,8 @@ public class MyProfileFragment extends Fragment {
                             }
                         });
                     }
-                }
+                    }
             });
         }
+        }
     }
-}

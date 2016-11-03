@@ -2,7 +2,6 @@ package com.sign_in.asu.socialnetwork.Activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,7 +25,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sign_in.asu.socialnetwork.R;
-import com.sign_in.asu.socialnetwork.SocialNetworkNotification;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,8 +48,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_login)
     public void login() {
-        final String email = inputEmail.getText().toString();
-        final String password = inputPassword.getText().toString();
+        final String email = inputEmail.getText().toString().trim();
+        final String password = inputPassword.getText().toString().trim();
         if (TextUtils.isEmpty(email))
             inputEmail.setError("Email is empty");
         if (TextUtils.isEmpty(password))

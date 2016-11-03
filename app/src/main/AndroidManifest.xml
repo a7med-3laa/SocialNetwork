@@ -12,8 +12,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".Activity.SignUpActivity"
             android:configChanges="orientation"
@@ -60,7 +59,8 @@
         <service
             android:name=".SocialNetworkNotification"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:icon="@drawable/logo" />
 
         <activity
             android:name=".SettingsActivity"
@@ -68,7 +68,8 @@
             android:configChanges="orientation"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".Activity.ChatActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sign_in.asu.socialnetwork.Activity.ChatActivity" />

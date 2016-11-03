@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -24,11 +23,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.FirebaseDatabase;
 import com.sign_in.asu.socialnetwork.Activity.ChatActivity;
 import com.sign_in.asu.socialnetwork.Activity.LoginActivity;
 import com.sign_in.asu.socialnetwork.R;
-import com.sign_in.asu.socialnetwork.model.Users;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -72,10 +69,10 @@ public class SignUpFragment extends Fragment {
 
     @OnClick(R.id.btn_register)
     public void registerUser() {
-        final String email = inputMail.getText().toString();
-        final String password = inputPassword.getText().toString();
-        firstName = inputFirstName.getText().toString();
-        lastName = inputLastName.getText().toString();
+        final String email = inputMail.getText().toString().trim();
+        final String password = inputPassword.getText().toString().trim();
+        firstName = inputFirstName.getText().toString().trim();
+        lastName = inputLastName.getText().toString().trim();
 
         if (TextUtils.isEmpty(email))
             inputMail.setError("Email is Empty");

@@ -25,7 +25,7 @@ public class ForgetPassword extends AppCompatActivity {
 
     @OnClick(R.id.restore_password)
     public void getPassword() {
-        String email = emailRestore.getText().toString();
+        String email = emailRestore.getText().toString().trim();
         if (!TextUtils.isEmpty(email)) {
             startActivity(new Intent(ForgetPassword.this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
 
