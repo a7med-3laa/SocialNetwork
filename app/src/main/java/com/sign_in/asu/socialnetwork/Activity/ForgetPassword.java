@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.sign_in.asu.socialnetwork.MyApp;
 import com.sign_in.asu.socialnetwork.R;
 
 import butterknife.Bind;
@@ -27,20 +28,26 @@ public class ForgetPassword extends AppCompatActivity {
     public void getPassword() {
         String email = emailRestore.getText().toString().trim();
         if (!TextUtils.isEmpty(email)) {
-            startActivity(new Intent(ForgetPassword.this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
 
-            FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnCompleteListener(ForgetPassword.this, new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(getApplicationContext(), "Password sent to your email", Toast.LENGTH_SHORT).show();
-                    } else
+            if (!MyApp.isEmailValid(email))
+                emailRestore.setError("Email is incorrect");
+            else {
+                startActivity(new Intent(ForgetPassword.this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
 
-                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+                FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnCompleteListener(ForgetPassword.this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Password sent to your email", Toast.LENGTH_SHORT).show();
+                        } else
+
+                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
         } else
-            emailRestore.setError("Enter Email correctly ");
+            emailRestore.setError("email is empty");
     }
 
     @OnClick(R.id.back_to_login)

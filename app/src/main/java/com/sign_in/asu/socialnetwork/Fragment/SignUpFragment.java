@@ -73,10 +73,9 @@ public class SignUpFragment extends Fragment {
         final String password = inputPassword.getText().toString().trim();
         firstName = inputFirstName.getText().toString().trim();
         lastName = inputLastName.getText().toString().trim();
-
         if (TextUtils.isEmpty(email))
             inputMail.setError("Email is Empty");
-        if (TextUtils.isEmpty(password))
+        else if (TextUtils.isEmpty(password))
             inputPassword.setError("Password is Empty");
         else if (password.length() < 6)
             inputPassword.setError("your password is Short");
@@ -154,5 +153,6 @@ public class SignUpFragment extends Fragment {
     private void showMassege(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
+
 
 }

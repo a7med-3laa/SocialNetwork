@@ -205,4 +205,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
 
+    /**
+     * Created by ahmed on 03/11/2016.
+     */
+
+
 }

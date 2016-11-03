@@ -24,6 +24,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.sign_in.asu.socialnetwork.MyApp;
 import com.sign_in.asu.socialnetwork.R;
 
 import butterknife.Bind;
@@ -52,7 +53,10 @@ public class LoginActivity extends AppCompatActivity {
         final String password = inputPassword.getText().toString().trim();
         if (TextUtils.isEmpty(email))
             inputEmail.setError("Email is empty");
-        if (TextUtils.isEmpty(password))
+        else if (!MyApp.isEmailValid(email))
+            inputEmail.setError("Email is incorrect");
+
+        else if (TextUtils.isEmpty(password))
             inputPassword.setError("Password is empty");
         else if (password.length() < 6)
             inputPassword.setError("your password is Short");

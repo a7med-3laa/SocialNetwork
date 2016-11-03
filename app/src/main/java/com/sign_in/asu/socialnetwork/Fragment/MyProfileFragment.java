@@ -1,9 +1,12 @@
 package com.sign_in.asu.socialnetwork.Fragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,6 +35,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.sign_in.asu.socialnetwork.Activity.LoginActivity;
+import com.sign_in.asu.socialnetwork.MyApp;
 import com.sign_in.asu.socialnetwork.R;
 import com.sign_in.asu.socialnetwork.SocialNetworkNotification;
 import com.sign_in.asu.socialnetwork.model.Users;
@@ -79,6 +83,9 @@ public class MyProfileFragment extends Fragment {
                 String emailStr = email.getText().toString().trim();
                 if (TextUtils.isEmpty(emailStr))
                     Toast.makeText(getActivity(), "Email is empty ", Toast.LENGTH_SHORT).show();
+                else if (!MyApp.isEmailValid(emailStr))
+                    email.setError("Email is incorrect");
+
                 else {
                     me.updateEmail(emailStr).addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
                         @Override
@@ -188,7 +195,10 @@ public class MyProfileFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     Users temp = dataSnapshot.getValue(Users.class);
-                    Glide.with(getActivity()).load(temp.getPp()).into(circularImage);
+                    Glide.with(getActivity()).load(temp.getPp())
+                            .placeholder(R.drawable.loading)
+                            .error(R.drawable.profilepic)
+                            .into(circularImage);
 
                 }
             }
@@ -211,8 +221,10 @@ public class MyProfileFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == getActivity().RESULT_CANCELED)
             p.dismiss();
-
-        if (requestCode == 0 && resultCode == getActivity().RESULT_OK && data != null) {
+        else if (!isNetworkAvailable()) {
+            p.dismiss();
+            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+        } else if (requestCode == 0 && resultCode == getActivity().RESULT_OK && data != null) {
             //get Image Uri
             Uri uri = data.getData();
 
@@ -249,4 +261,11 @@ public class MyProfileFragment extends Fragment {
             });
         }
         }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
     }

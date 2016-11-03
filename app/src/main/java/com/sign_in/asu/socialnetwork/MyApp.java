@@ -1,6 +1,7 @@
 package com.sign_in.asu.socialnetwork;
 
 import android.app.Application;
+import android.util.Patterns;
 
 /**
  * Created by ahmed on 30/10/2016.
@@ -22,5 +23,8 @@ public class MyApp extends Application {
         activityVisible = false;
     }
 
+    public static boolean isEmailValid(String email) {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
 }
 

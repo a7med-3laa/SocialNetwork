@@ -1,8 +1,12 @@
 package com.sign_in.asu.socialnetwork.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -43,7 +49,8 @@ public class ChatActivityFragment extends Fragment {
     @Bind(R.id.chatlist)
     RecyclerView chatList;
 
-
+    @Bind(R.id.content_chat)
+    FrameLayout chatContent;
     @Bind(R.id.txtmsg)
     EditText text;
 
@@ -90,7 +97,8 @@ public class ChatActivityFragment extends Fragment {
         // Databsae for Msgs
         db = FirebaseDatabase.getInstance().getReference("msgs");
 
-
+        if (!isNetworkAvailable())
+            Snackbar.make(chatContent, "You must be connected to internet", Snackbar.LENGTH_LONG).show();
         LinearLayoutManager a = new LinearLayoutManager(getActivity());
         a.setStackFromEnd(true);
 
@@ -133,6 +141,11 @@ public class ChatActivityFragment extends Fragment {
                 });
             }
 
+            @Override
+            protected void onCancelled(DatabaseError databaseError) {
+                super.onCancelled(databaseError);
+                Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
+            }
 
         };
 
@@ -141,5 +154,11 @@ public class ChatActivityFragment extends Fragment {
         return v;
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
 }
 

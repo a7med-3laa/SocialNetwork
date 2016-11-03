@@ -12,7 +12,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".Activity.SignUpActivity"
             android:configChanges="orientation"
@@ -68,8 +68,7 @@
             android:configChanges="orientation"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".Activity.ChatActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sign_in.asu.socialnetwork.Activity.ChatActivity" />
