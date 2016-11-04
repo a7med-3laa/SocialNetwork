@@ -101,7 +101,6 @@ public class ChatActivityFragment extends Fragment {
             Snackbar.make(chatContent, "You must be connected to internet", Snackbar.LENGTH_LONG).show();
         LinearLayoutManager a = new LinearLayoutManager(getActivity());
         a.setStackFromEnd(true);
-
         chatList.setLayoutManager(a);
 
         // RecycleView Adapter
@@ -116,12 +115,13 @@ public class ChatActivityFragment extends Fragment {
                     return R.layout.row_in;
                 else
                     return R.layout.row_out;
+
             }
+
 
 
             @Override
             protected void populateViewHolder(final ChatHolder viewHolder, final ChatMsg model, int position) {
-
                 viewHolder.name.setText(model.getName());
                 viewHolder.msg.setText(model.getMsg());
 
@@ -133,12 +133,12 @@ public class ChatActivityFragment extends Fragment {
                                     .placeholder(R.drawable.profilepic)
                                     .into(viewHolder.Pp);
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
                 });
+
             }
 
             @Override
@@ -154,11 +154,13 @@ public class ChatActivityFragment extends Fragment {
         return v;
     }
 
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
+
 }
 
