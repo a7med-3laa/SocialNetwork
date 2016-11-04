@@ -23,9 +23,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.FirebaseDatabase;
 import com.sign_in.asu.socialnetwork.Activity.ChatActivity;
 import com.sign_in.asu.socialnetwork.Activity.LoginActivity;
 import com.sign_in.asu.socialnetwork.R;
+import com.sign_in.asu.socialnetwork.model.Users;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,6 +39,7 @@ import butterknife.OnClick;
 public class SignUpFragment extends Fragment {
     String firstName;
     String lastName;
+    FirebaseUser me;
 
     @Bind(R.id.email)
     EditText inputMail;
@@ -111,12 +114,14 @@ public class SignUpFragment extends Fragment {
                                         .setDisplayName(firstName + " " + lastName)
                                         .build();
 
-                                FirebaseUser me = FirebaseAuth.getInstance().getCurrentUser();
-
+                                me = FirebaseAuth.getInstance().getCurrentUser();
 
                                 me.updateProfile(userProfileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
+                                        Users user = new Users("none", me.getUid());
+                                        FirebaseDatabase.getInstance().getReference("users").child(me.getUid()).setValue(user);
+
                                         startActivity(new Intent(getActivity(), ChatActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                                         getActivity().finish();
 

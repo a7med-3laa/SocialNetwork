@@ -120,17 +120,19 @@ public class ChatActivityFragment extends Fragment {
 
 
             @Override
-            protected void populateViewHolder(final ChatHolder viewHolder, final ChatMsg model, int position) {
+            protected void populateViewHolder(final ChatHolder viewHolder, ChatMsg model, int position) {
                 viewHolder.name.setText(model.getName());
                 viewHolder.msg.setText(model.getMsg());
 
                 dbUser.child(model.getSenderID()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists())
-                            Glide.with(getActivity()).load(dataSnapshot.getValue(Users.class).getPp())
+                        if (dataSnapshot.exists()) {
+                            String profilePic = dataSnapshot.getValue(Users.class).getPp();
+                            Glide.with(getActivity()).load(profilePic)
                                     .placeholder(R.drawable.profilepic)
                                     .into(viewHolder.Pp);
+                        }
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
