@@ -9,7 +9,6 @@ import android.util.Patterns;
 
 public class MyApp extends Application {
 
-    public static String LastMsgKey = "0";
     private static boolean activityVisible;
 
     public static boolean isActivityVisible() {

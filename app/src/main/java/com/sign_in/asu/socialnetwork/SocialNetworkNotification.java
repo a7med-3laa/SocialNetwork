@@ -65,7 +65,7 @@ public class SocialNetworkNotification extends Service {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (!MyApp.isActivityVisible() && dataSnapshot.exists()) {
                     ChatMsg chatMsg = dataSnapshot.getValue(ChatMsg.class);
-                    if (!chatMsg.getSenderID().equals(me.getUid()) && !dataSnapshot.getKey().equals(MyApp.LastMsgKey)) {
+                    if (!chatMsg.getSenderID().equals(me.getUid())) {
                         Notification a = new Notification.Builder(getApplicationContext())
                                 .setContentTitle(chatMsg.getName() + ":")
                                 .setContentText(chatMsg.getMsg())
@@ -76,7 +76,6 @@ public class SocialNetworkNotification extends Service {
                                 .setOnlyAlertOnce(true)
                                 .setAutoCancel(true)
                                 .build();
-                        MyApp.LastMsgKey = dataSnapshot.getKey();
                         m.notify(0, a);
                     }
                 }
