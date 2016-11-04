@@ -119,7 +119,6 @@ public class ChatActivityFragment extends Fragment {
             }
 
 
-
             @Override
             protected void populateViewHolder(final ChatHolder viewHolder, final ChatMsg model, int position) {
                 viewHolder.name.setText(model.getName());
